@@ -9,3 +9,10 @@ export type Transaction = {
   amount: number;
   operation: "income" | "expense";
 };
+
+export type History = {
+  date: Date;
+  description: string;
+  amount: number;
+  operation: "income" | "expense";
+};

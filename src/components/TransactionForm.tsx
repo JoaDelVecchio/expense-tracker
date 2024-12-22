@@ -2,12 +2,17 @@ import { useState } from "react";
 import {
   Expenses as ExpensesType,
   Transaction as TransactionType,
+  History as HistoryType,
 } from "../types/expenses";
 
 const TransactionForm = ({
   setExpensesData,
+  setTransactionHistory,
+  handleNewTransaction,
 }: {
   setExpensesData: React.Dispatch<React.SetStateAction<ExpensesType>>;
+  setTransactionHistory: React.Dispatch<React.SetStateAction<HistoryType[]>>;
+  handleNewTransaction: () => void;
 }) => {
   const [transactionData, setTransactionData] = useState<TransactionType>({
     description: "",
@@ -27,12 +32,6 @@ const TransactionForm = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Basic validation
-    if (!transactionData.description || transactionData.amount <= 0) {
-      alert("Please provide a valid description and amount.");
-      return;
-    }
-
     // Update the parent state
     setExpensesData((prev) =>
       transactionData.operation === "income"
@@ -47,6 +46,13 @@ const TransactionForm = ({
             expense: prev.expense + transactionData.amount,
           }
     );
+    setTransactionHistory((prev) => [
+      ...prev,
+      {
+        date: new Date(),
+        ...transactionData,
+      },
+    ]);
 
     // Reset the form
     setTransactionData({
@@ -62,9 +68,17 @@ const TransactionForm = ({
         onSubmit={handleSubmit}
         className="w-[90%] max-w-lg bg-white rounded-xl shadow-2xl p-8"
       >
-        <p className="text-3xl font-semibold text-center mb-6 text-gray-900">
-          Add New Transaction
-        </p>
+        <div className="flex justify-between items-center p-2">
+          <p className="text-3xl font-semibold text-center mb-6 text-gray-900">
+            Add New Transaction
+          </p>
+          <button
+            onClick={handleNewTransaction}
+            className="text-2xl font-semibold text-center mb-6 text-gray-900"
+          >
+            X
+          </button>
+        </div>
 
         {/* Description Input */}
         <label

@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { Expenses as ExpensesType } from "./types/expenses";
+import {
+  Expenses as ExpensesType,
+  History as HistoryType,
+} from "./types/expenses";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Tracker from "./components/Tracker";
@@ -13,8 +16,12 @@ function App() {
   });
   const [isOpen, setIsOpen] = useState(false);
   const handleNewTransaction = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prev) => !prev);
   };
+
+  const [transactionHistory, setTransactionHistory] = useState<HistoryType[]>(
+    []
+  );
 
   return (
     <div className="flex flex-col h-full">
@@ -23,8 +30,18 @@ function App() {
         expensesData={expensesData}
         setExpensesData={setExpensesData}
       />
-      {isOpen && <TransactionForm setExpensesData={setExpensesData} />}
-      <Tracker expensesData={expensesData} />
+      {isOpen && (
+        <TransactionForm
+          handleNewTransaction={handleNewTransaction}
+          setTransactionHistory={setTransactionHistory}
+          setExpensesData={setExpensesData}
+        />
+      )}
+      <Tracker
+        handleNewTransaction={handleNewTransaction}
+        transactionHistory={transactionHistory}
+        expensesData={expensesData}
+      />
     </div>
   );
 }
