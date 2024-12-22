@@ -1,5 +1,14 @@
-const Navbar = () => {
-  const handleNewTransaction = () => {};
+import { Expenses as ExpensesType } from "../types/expenses";
+
+const Navbar = ({
+  handleNewTransaction,
+  expensesData,
+  setExpensesData,
+}: {
+  handleNewTransaction: () => void;
+  expensesData: ExpensesType;
+  setExpensesData: React.Dispatch<React.SetStateAction<ExpensesType>>;
+}) => {
   return (
     <header className="shadow-lg w-full flex justify-between items-center p-5">
       <h1 className="font-bold text-lg">Expense Tracker</h1>
