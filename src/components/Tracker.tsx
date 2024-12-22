@@ -5,11 +5,9 @@ import {
 const Tracker = ({
   expensesData,
   transactionHistory,
-  handleNewTransaction,
 }: {
   expensesData: ExpensesType;
   transactionHistory: HistoryType[];
-  handleNewTransaction: () => void;
 }) => {
   return (
     <main className="flex flex-col gap-6 p-8">

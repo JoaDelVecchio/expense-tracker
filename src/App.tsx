@@ -25,11 +25,7 @@ function App() {
 
   return (
     <div className="flex flex-col h-full">
-      <Navbar
-        handleNewTransaction={handleNewTransaction}
-        expensesData={expensesData}
-        setExpensesData={setExpensesData}
-      />
+      <Navbar handleNewTransaction={handleNewTransaction} />
       {isOpen && (
         <TransactionForm
           handleNewTransaction={handleNewTransaction}
@@ -38,7 +34,6 @@ function App() {
         />
       )}
       <Tracker
-        handleNewTransaction={handleNewTransaction}
         transactionHistory={transactionHistory}
         expensesData={expensesData}
       />
