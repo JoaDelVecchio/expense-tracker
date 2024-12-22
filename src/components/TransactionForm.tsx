@@ -22,17 +22,15 @@ const TransactionForm = ({
 
   const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-
     setTransactionData((prev) => ({
       ...prev,
-      [name]: name === "amount" ? parseFloat(value) || 0 : value, // Handle "amount" separately
+      [name]: name === "amount" ? parseFloat(value) || 0 : value,
     }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Update the parent state
     setExpensesData((prev) =>
       transactionData.operation === "income"
         ? {
@@ -46,46 +44,37 @@ const TransactionForm = ({
             expense: prev.expense + transactionData.amount,
           }
     );
+
     setTransactionHistory((prev) => [
       ...prev,
-      {
-        date: new Date(),
-        ...transactionData,
-      },
+      { date: new Date(), ...transactionData },
     ]);
 
-    // Reset the form
-    setTransactionData({
-      description: "",
-      amount: 0,
-      operation: "income",
-    });
+    setTransactionData({ description: "", amount: 0, operation: "income" });
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
       <form
         onSubmit={handleSubmit}
-        className="w-[90%] max-w-lg bg-white rounded-xl shadow-2xl p-8"
+        className="w-[90%] max-w-lg bg-white rounded-3xl shadow-2xl p-8 transition-all duration-300"
       >
-        <div className="flex justify-between items-center p-2">
-          <p className="text-3xl font-semibold text-center mb-6 text-gray-900">
-            Add New Transaction
-          </p>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-semibold text-gray-900">
+            New Transaction
+          </h2>
           <button
+            type="button"
             onClick={handleNewTransaction}
-            className="text-2xl font-semibold text-center mb-6 text-gray-900"
+            className="text-gray-500 hover:text-gray-900 transition-all duration-200"
+            aria-label="Close Form"
           >
-            X
+            ×
           </button>
         </div>
 
-        {/* Description Input */}
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          Enter Description
+        <label htmlFor="description" className="block text-gray-700 mb-2">
+          Description
         </label>
         <input
           id="description"
@@ -94,67 +83,57 @@ const TransactionForm = ({
           value={transactionData.description}
           onChange={handleChanges}
           placeholder="Enter a description"
-          className="w-full border bg-white border-gray-300 rounded-lg p-3 mb-6 focus:outline-none focus:ring-4 focus:ring-blue-500"
+          className="bg-white w-full p-3 mb-4 border rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all"
         />
 
-        {/* Amount Input */}
-        <label
-          htmlFor="amount"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          Enter Amount
+        <label htmlFor="amount" className="block text-gray-700 mb-2">
+          Amount
         </label>
         <input
           id="amount"
           name="amount"
+          type="number"
           value={transactionData.amount || ""}
           onChange={handleChanges}
-          type="number"
           placeholder="Enter the amount"
-          className="w-full border bg-white border-gray-300 rounded-lg p-3 mb-6 focus:outline-none focus:ring-4 focus:ring-blue-500"
+          className="bg-white w-full p-3 mb-4 border rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all"
         />
 
-        {/* Radio Buttons */}
-        <fieldset className="mb-6">
-          <legend className="text-sm font-medium text-gray-700 mb-4">
-            Transaction Type
-          </legend>
-          <div className="flex items-center mb-4">
-            <input
-              id="expense"
-              name="operation"
-              type="radio"
-              value="expense"
-              onChange={handleChanges}
-              checked={transactionData.operation === "expense"}
-              className="mr-3 focus:ring-blue-500"
-            />
-            <label htmlFor="expense" className="text-gray-700">
-              Expense
-            </label>
-          </div>
-          <div className="flex items-center">
-            <input
-              id="income"
-              name="operation"
-              type="radio"
-              value="income"
-              onChange={handleChanges}
-              checked={transactionData.operation === "income"}
-              className="mr-3 focus:ring-blue-500"
-            />
-            <label htmlFor="income" className="text-gray-700">
+        <fieldset className="mb-4">
+          <legend className="block text-gray-700 mb-2">Transaction Type</legend>
+          <div className="flex items-center gap-4">
+            <label className="flex items-center gap-2">
+              <input
+                id="income"
+                name="operation"
+                type="radio"
+                value="income"
+                checked={transactionData.operation === "income"}
+                onChange={handleChanges}
+                className="focus:ring-blue-300"
+              />
               Income
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                id="expense"
+                name="operation"
+                type="radio"
+                value="expense"
+                checked={transactionData.operation === "expense"}
+                onChange={handleChanges}
+                className="focus:ring-blue-300"
+              />
+              Expense
             </label>
           </div>
         </fieldset>
 
-        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500"
+          className="w-full bg-blue-600 text-white py-3 rounded-xl font-medium hover:bg-blue-700 transition-all duration-300"
         >
-          Submit
+          Add Transaction
         </button>
       </form>
     </div>

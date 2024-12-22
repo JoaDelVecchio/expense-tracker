@@ -12,39 +12,49 @@ const Tracker = ({
   handleNewTransaction: () => void;
 }) => {
   return (
-    <main className="flex flex-col gap-5">
-      <div className="shadow-lg flex justify-between gap-3 p-11">
-        <div className="flex-1 gap-2 flex flex-col justify-center items-center ">
-          <h2 className="text-2xl">Balance ${expensesData.balance}</h2>
-          <div className="flex flex-col gap-2 w-full shadow-md bg-slate-100">
-            <div className="flex flex-col shadow-sm justify-center items-center p-5">
-              <span className="font-semibold text-lg">
-                ${expensesData.income}
-              </span>
-              <span>Total Income</span>
-            </div>
-            <div className="flex flex-col shadow-sm justify-center items-center p-5">
-              <span className="font-semibold text-lg">
-                ${expensesData.expense}
-              </span>
-              <span>Total Expense</span>
-            </div>
+    <main className="flex flex-col gap-6 p-8">
+      {/* Overview Section */}
+      <div className="bg-white shadow-lg rounded-3xl p-6 flex justify-between">
+        <div className="flex flex-col gap-4">
+          <h2 className="text-2xl font-semibold">Balance</h2>
+          <p className="text-4xl font-bold text-gray-800">
+            ${expensesData.balance}
+          </p>
+        </div>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-green-500 rounded-full"></div>
+            <span className="font-medium text-gray-600">
+              Income: ${expensesData.income}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+            <span className="font-medium text-gray-600">
+              Expense: ${expensesData.expense}
+            </span>
           </div>
         </div>
-        <div className="flex flex-1 justify-center items-center  ">
-          <p>Grafico</p>
-        </div>
       </div>
-      <div className="shadow-sm">
-        <h2>Transaction History</h2>
-        <ul>
-          {transactionHistory.map((transaction) => (
-            <div className="flex gap-5">
-              <li>{transaction.date.toLocaleDateString()}</li>
-              <li>{transaction.description}</li>
-              <li>{transaction.amount}</li>
-              <li>{transaction.operation}</li>
-            </div>
+
+      {/* Transaction History */}
+      <div className="bg-white shadow-lg rounded-3xl p-6">
+        <h2 className="text-xl font-semibold mb-4">Transaction History</h2>
+        <ul className="divide-y">
+          {transactionHistory.map((transaction, index) => (
+            <li key={index} className="flex justify-between py-4">
+              <span>{transaction.date.toLocaleDateString()}</span>
+              <span>{transaction.description}</span>
+              <span
+                className={`font-semibold ${
+                  transaction.operation === "income"
+                    ? "text-green-500"
+                    : "text-red-500"
+                }`}
+              >
+                ${transaction.amount}
+              </span>
+            </li>
           ))}
         </ul>
       </div>
